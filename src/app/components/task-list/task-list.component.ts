@@ -12,10 +12,10 @@ export class TaskListComponent {
   @Input() taskList: any[] = [];
   @Output() important = new EventEmitter<any>();
   @Output() complete = new EventEmitter<any>();
-  markImportant(task: any) {
-    this.important.emit(task);
+  markImportant(index: number, task: any) {
+    this.important.emit({ task, index });
   }
-  markComplete(task: any) {
-    this.complete.emit(task);
+  markComplete(index: number, task: any) {
+    this.complete.emit({ task, index });
   }
 }

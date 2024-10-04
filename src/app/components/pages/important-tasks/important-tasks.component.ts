@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { PageTitleComponent } from '../../page-title/page-title.component';
 import { TaskListComponent } from '../../task-list/task-list.component';
-import { HttpService } from '../../../services/http.service';
+import { TodoService } from '../../../services/todo.service';
+import { Todo } from '../../../models/todo.model';
 
 @Component({
   selector: 'app-important-tasks',
@@ -11,29 +12,27 @@ import { HttpService } from '../../../services/http.service';
   styleUrl: './important-tasks.component.scss',
 })
 export class ImportantTasksComponent {
-  newTask="";
-  taskList:any[]=[];
-  httpService=inject(HttpService);
+  newTask = '';
+  taskList: any[] = [];
+  todoService = inject(TodoService);
 
-  ngOnInit(){
+  ngOnInit() {
     this.getAllTasks();
   }
-  getAllTasks(){
-    this.httpService.getAllTasks().subscribe((result:any)=>{
-      this.taskList=result.filter((x:any)=>x.important==true);
-    })
+  constructor() {}
+
+  getAllTasks() {
+    const result = this.todoService.getTodos();
+    this.taskList = result.filter((x: any) => x.important === true);
   }
-  onComplete(task:any){
-    task.completed=true;
-    console.log("complete",task)
-    this.httpService.updateTask(task).subscribe(()=>{
-      this.getAllTasks();
-    })
+  onComplete({ index, task }: { index: number; task: Todo }) {
+    task.completed = true;
+    console.log('complete', task);
+    this.todoService.updateTodo(index, task);
+    this.getAllTasks();
   }
-  onImportant(task:any){
-    task.important=true;
-    this.httpService.updateTask(task).subscribe(()=>{
-      this.getAllTasks();
-    })
+  onImportant({ index, task }: { index: number; task: Todo }) {
+    task.important = true;
+    this.todoService.updateTodo(index, task);
   }
 }

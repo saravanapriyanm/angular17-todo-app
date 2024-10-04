@@ -1,6 +1,6 @@
 <h2 class="font-bold text-xl">Tasks</h2>
 
-@for (task of taskList; track task) {
+@for (task of taskList; track task;) {
 <div
   class="bg-white w-full h-16 px-4 py-2 rounded shadow flex justify-between items-center mt-2 mb-2 pr-8"
 >
@@ -31,7 +31,7 @@
       stroke-width="1.5"
       stroke="currentColor"
       class="w-6 h-6 text-yellow-500 hover:cursor-pointer"
-      (click)="markImportant(task)"
+      (click)="markImportant($index, task)"
     >
       <path
         stroke-linecap="round"
@@ -61,7 +61,7 @@
       stroke-width="1.5"
       stroke="currentColor"
       class="w-6 h-6 hover:cursor-pointer text-green-600"
-      (click)="markComplete(task)"
+      (click)="markComplete($index, task)"
     >
       <path
         stroke-linecap="round"
